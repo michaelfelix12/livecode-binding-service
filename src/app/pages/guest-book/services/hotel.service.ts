@@ -97,24 +97,32 @@ export class HotelService {
     });
   }
 
-  checkIn(bookingId: number): Observable<void> {
+  checkIn(book: Book): Observable<void> {
     return new Observable<void>((observer: Observer<void>) => {
       try {
-        // bookingId = 'Chekedin'
+        book.status = 'Checked-in'
+        this.save(book)
+        alert(`Tamu ${book.reservee.name} sudah check-in pada kamar ${book.roomNumber}.`)
+        observer.next()
       } catch (error: any) {
-        observer.error(error.message);
+        observer.error(error.message)
       }
-    });
-  };
+      this.setToStorage();
+    })
+  }
 
-  checkOut(bookingId: number): Observable<void> {
+  checkOut(book: Book): Observable<void> {
     return new Observable<void>((observer: Observer<void>) => {
       try {
-
+        book.status = 'Checked-out'
+        alert(`Tamu ${book.reservee.name} sudah check-out dari kamar ${book.roomNumber}.`)
+        this.save(book)
+        observer.next()
       } catch (error: any) {
-        observer.error(error.message);
+        observer.error(error.message)
       }
-    });
-  };
+      this.setToStorage();
+    })
+  }
 
 }

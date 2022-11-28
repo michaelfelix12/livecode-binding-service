@@ -2,12 +2,16 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 const routes: Routes = [
   {
+    path: 'landing-page',
+    loadChildren: () => import('./landing-page/landing-page.module').then(m => m.LandingPageModule),
+  },
+  {
     path: 'guest-book',
     loadChildren: () => import('./guest-book/guest-book.module').then(m => m.GuestBookModule),
   },
   {
     path: '',
-    redirectTo: 'guest-book',
+    redirectTo: 'landing-page',
     pathMatch: 'full'
   }
 ];

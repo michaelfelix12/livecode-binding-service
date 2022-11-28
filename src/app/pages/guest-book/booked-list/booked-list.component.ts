@@ -27,12 +27,15 @@ export class BookedListComponent implements OnInit {
   onReserve(booking: Book): void {
 
   };
-  onCheckIn(book: Book): void {
 
+  onCheckIn(booking: Book){
+    this.hotelService.checkIn(booking).subscribe()
   };
-  onCheckOut(book: Book): void {
 
+  onCheckOut(booking: Book){
+    this.hotelService.checkOut(booking).subscribe()
   };
+
   onDeleteReservation(book: Book): void {
     this.hotelService.remove(book.id).subscribe();
   };
