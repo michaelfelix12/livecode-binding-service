@@ -1,0 +1,16 @@
+<section class="p-5" style="background-color: orange">
+  <div class="container text-center" style="margin-top: 50px">
+    <h1>Welcome To Room Reservation Page</h1>
+    <h4>{{'Mandiri Hotel' | uppercase}}</h4>
+    <h6 class="text-center">
+      {{ today | dateCustom: "eeee, dd MMMM yyyy":locale }}
+    </h6>
+    <br />
+    <div class="col-md">
+      <app-booked-list></app-booked-list>
+    </div>
+    <div class="col-md">
+      <app-form-booked></app-form-booked>
+    </div>
+  </div>
+</section>
