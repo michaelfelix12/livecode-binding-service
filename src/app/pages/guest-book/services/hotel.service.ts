@@ -120,17 +120,23 @@ export class HotelService {
 
   checkIn(book: Book): Observable<void> {
     return new Observable<void>((observer: Observer<void>) => {
-      try {
-        book.status = 'Checked-in';
-        this.save(book);
+      if (book.status === 'Checked-out') {
         alert(
-          `Tamu ${book.reservee.name} sudah check-in pada kamar ${book.roomNumber}.`
+          `Tamu ${book.reservee.name} sudah check-out dari kamar ${book.roomNumber}, tidak bisa check-in.`
         );
-        observer.next();
-      } catch (error: any) {
-        observer.error(error.message);
+      } else {
+        try {
+          book.status = 'Checked-in';
+          this.save(book);
+          alert(
+            `Tamu ${book.reservee.name} sudah check-in pada kamar ${book.roomNumber}.`
+          );
+          observer.next();
+        } catch (error: any) {
+          observer.error(error.message);
+        }
+        this.setToStorage();
       }
-      this.setToStorage();
     });
   }
 
@@ -144,6 +150,10 @@ export class HotelService {
           );
           this.save(book);
           observer.next();
+        } else if (book.status === 'Checked-out') {
+          alert(
+            `Tamu ${book.reservee.name} sudah check-out dari kamar ${book.roomNumber}.`
+          );
         } else {
           alert(
             `Tamu ${book.reservee.name} tidak bisa check-out karena belum check-in`

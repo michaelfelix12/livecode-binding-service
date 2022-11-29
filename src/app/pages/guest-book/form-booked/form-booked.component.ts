@@ -65,6 +65,12 @@ export class FormBookedComponent implements OnInit {
     ]),
   });
 
+  emailValidation(email: any): boolean{
+    return (email).toLowerCase().match(
+      /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/
+    )
+  }
+
   onSubmitReservation(): void {
     const { id, status, roomNumber, duration, guestCount, name, email, phone } =
       this.guestForm.value;
@@ -73,7 +79,7 @@ export class FormBookedComponent implements OnInit {
       duration > 0 &&
       guestCount > 0 &&
       name &&
-      email &&
+      this.emailValidation(email) &&
       phone
     ) {
       this.hotelService
