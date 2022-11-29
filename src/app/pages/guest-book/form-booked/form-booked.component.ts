@@ -49,16 +49,13 @@ export class FormBookedComponent implements OnInit {
       Validators.pattern('^[0-9]*$'),
       Validators.min(1),
     ]),
-    duration: new FormControl('', [
-      Validators.required,
-      Validators.min(1)
-    ]),
+    duration: new FormControl('', [Validators.required, Validators.min(1)]),
     guestCount: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     email: new FormControl('', [
       Validators.required,
       Validators.email,
-      Validators.min(1)
+      Validators.min(1),
     ]),
     phone: new FormControl('', [
       Validators.required,
@@ -70,12 +67,15 @@ export class FormBookedComponent implements OnInit {
 
   onSubmitReservation(): void {
     const { id, status, roomNumber, duration, guestCount, name, email, phone } =
-      this.guestForm.value ;
-    if (!name) {
-      alert(`Form Reservasi harus diisi dengan lengkap.`);
-    } if (!name.Validators) {
-      alert(`Form Reservasi harus diisi sesuai dengan ketentuan.`);
-    } else {
+      this.guestForm.value;
+    if (
+      roomNumber > 2 &&
+      duration > 0 &&
+      guestCount > 0 &&
+      name &&
+      email &&
+      phone
+    ) {
       this.hotelService
         .save({
           id,
@@ -93,6 +93,8 @@ export class FormBookedComponent implements OnInit {
         .subscribe();
       this.onFormReset();
       this.router.navigateByUrl(BOOK);
+    } else {
+      alert(`Form Reservasi harus diisi sesuai dengan ketentuan.`);
     }
   }
 
