@@ -4,6 +4,7 @@ import { PagesComponent } from './pages.component'
 import { RouterModule } from '@angular/router';
 import { PagesRoutingModule } from './pages-routing.module';
 import { GuestBookModule } from './guest-book/guest-book.module';
+import { LandingPageModule } from './landing-page/landing-page.module';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { GuestBookModule } from './guest-book/guest-book.module';
         RouterModule,
         GuestBookModule,
         PagesRoutingModule,
+        LandingPageModule
     ]
 })
 export class PagesModule { }

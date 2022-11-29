@@ -28,11 +28,11 @@ export class FormBookedComponent implements OnInit {
         this.hotelService.get(+id).subscribe({
           next: (book: Book) => {
             this.book = book;
-            this.setFormValue(this.book)
-          }
+            this.setFormValue(this.book);
+          },
         });
-      }
-    })
+      },
+    });
   }
 
   ngOnChanges(): void {
@@ -42,32 +42,58 @@ export class FormBookedComponent implements OnInit {
 
   guestForm: FormGroup = new FormGroup({
     id: new FormControl(),
-    status: new FormControl('', [Validators.required]),
-    roomNumber: new FormControl('', [Validators.required]),
-    duration: new FormControl('', [Validators.required]),
+    status: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    roomNumber: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern('^[0-9]*$'),
+      Validators.min(1),
+    ]),
+    duration: new FormControl('', [
+      Validators.required,
+      Validators.min(1)
+    ]),
     guestCount: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required])
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.min(1)
+    ]),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern('^[0-9]*$'),
+      Validators.min(1),
+    ]),
   });
 
   onSubmitReservation(): void {
-    const { id, status, roomNumber, duration, guestCount, name, email, phone } = this.guestForm.value
-    this.hotelService.save({
-      id,
-      status: "Reserved",
-      roomNumber,
-      duration,
-      guestCount,
-      reservee: {
-        id,
-        name,
-        email,
-        phone
-      }
-    }).subscribe();
-    this.onFormReset();
-    this.router.navigateByUrl(BOOK)
+    const { id, status, roomNumber, duration, guestCount, name, email, phone } =
+      this.guestForm.value ;
+    if (!name) {
+      alert(`Form Reservasi harus diisi dengan lengkap.`);
+    } if (!name.Validators) {
+      alert(`Form Reservasi harus diisi sesuai dengan ketentuan.`);
+    } else {
+      this.hotelService
+        .save({
+          id,
+          status: 'Reserved',
+          roomNumber,
+          duration,
+          guestCount,
+          reservee: {
+            id,
+            name,
+            email,
+            phone,
+          },
+        })
+        .subscribe();
+      this.onFormReset();
+      this.router.navigateByUrl(BOOK);
+    }
   }
 
   onFormReset(): void {

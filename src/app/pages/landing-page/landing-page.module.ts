@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LandingPageComponent } from './landing-page.component';
 import { LandingPageRoutingModule } from './landing-page-routing.module';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
+    SharedModule,
     LandingPageRoutingModule
   ],
   exports: [
